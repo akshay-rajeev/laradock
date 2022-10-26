@@ -4,8 +4,10 @@ case $1 in
     init)
         docker compose build
         docker compose up -d --remove-orphans
+        docker compose exec php chown -R www-data storage
         docker compose exec php composer install
         docker compose exec php php artisan migrate:fresh --seed
+        docker compose exec php php artisan key:generate
         docker compose exec node npm install
         docker compose exec node npm run build
         ;;
