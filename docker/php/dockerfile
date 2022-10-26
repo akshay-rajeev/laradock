@@ -1,0 +1,7 @@
+FROM php:fpm-alpine
+
+RUN apk add libzip-dev libpng-dev
+RUN docker-php-ext-install pdo pdo_mysql gd zip
+
+# Install Composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
