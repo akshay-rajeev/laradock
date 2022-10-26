@@ -18,14 +18,14 @@ case $1 in
     migrate)
         docker-compose exec php php artisan migrate:fresh --seed
         ;;
-    send)
-        docker-compose exec node nodemon node/send.js
-        ;;
     composer)
         docker-compose exec php $*
         ;;
-    build)
+    watch)
         docker-compose exec node npm run dev
+        ;;
+    build)
+        docker-compose exec node npm run build
         ;;
     npm)
         docker-compose exec node $*
