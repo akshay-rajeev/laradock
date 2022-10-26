@@ -12,14 +12,17 @@ case $1 in
     start)
         docker compose up -d --remove-orphans
         ;;
+    composer)
+        docker compose exec php $*
+        ;;
     artisan)
         docker compose exec php php $*
         ;;
     migrate)
         docker compose exec php php artisan migrate:fresh --seed
         ;;
-    composer)
-        docker compose exec php $*
+    npm)
+        docker compose exec node $*
         ;;
     watch)
         docker compose exec node npm run dev
@@ -27,8 +30,10 @@ case $1 in
     build)
         docker compose exec node npm run build
         ;;
-    npm)
-        docker compose exec node $*
+    validate)
+        docker compose exec php ./vendor/bin/phpstan analyse --memory-limit=2G
+        docker compose exec php ./vendor/bin/phpcbf ./app
+        docker compose exec php php artisan test
         ;;
     login)
         docker compose exec -it $2 sh
