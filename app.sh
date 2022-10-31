@@ -2,42 +2,41 @@
 
 case $1 in
     init)
-        docker compose build
-        docker compose up -d --remove-orphans
-        docker compose exec php chown -R www-data storage
-        docker compose exec php composer install
-        docker compose exec php php artisan migrate:fresh --seed
-        docker compose exec php php artisan key:generate
-        docker compose exec node npm install
-        docker compose exec node npm run build
+        docker-compose --env-file src/.env up -d --remove-orphans --build
+        docker-compose --env-file src/.env exec php chown -R www-data storage
+        docker-compose --env-file src/.env exec php composer install
+        docker-compose --env-file src/.env exec php php artisan migrate:fresh --seed
+        docker-compose --env-file src/.env exec php php artisan key:generate
+        docker-compose --env-file src/.env exec node npm install
+        docker-compose --env-file src/.env exec node npm run build
         ;;
     start)
-        docker compose up -d --remove-orphans
+        docker-compose --env-file src/.env up -d --remove-orphans
         ;;
     composer)
-        docker compose exec php $*
+        docker-compose --env-file src/.env exec php $*
         ;;
     artisan)
-        docker compose exec php php $*
+        docker-compose --env-file src/.env exec php php $*
         ;;
     migrate)
-        docker compose exec php php artisan migrate:fresh --seed
+        docker-compose --env-file src/.env exec php php artisan migrate:fresh --seed
         ;;
     npm)
-        docker compose exec node $*
+        docker-compose --env-file src/.env exec node $*
         ;;
     watch)
-        docker compose exec node npm run dev
+        docker-compose --env-file src/.env exec node npm run dev
         ;;
     build)
-        docker compose exec node npm run build
+        docker-compose --env-file src/.env exec node npm run build
         ;;
     validate)
-        docker compose exec php ./vendor/bin/phpstan analyse --memory-limit=2G
-        docker compose exec php ./vendor/bin/phpcbf ./app
-        docker compose exec php php artisan test
+        docker-compose --env-file src/.env exec php ./vendor/bin/phpstan analyse --memory-limit=2G
+        docker-compose --env-file src/.env exec php ./vendor/bin/phpcbf ./app
+        docker-compose --env-file src/.env exec php php artisan test
         ;;
     login)
-        docker compose exec -it $2 sh
+        docker-compose --env-file src/.env exec -it $2 sh
         ;;
 esac
