@@ -14,7 +14,7 @@ services:
       - node
       - mysql
     volumes:
-      - ./src:/home/site
+      - ./src:/var/www/html
       - ./docker/nginx:/etc/nginx/conf.d
     networks:
       - laradock
@@ -41,23 +41,23 @@ services:
     container_name: node
     ports:
       - 5173:5173
-    working_dir: /home/site
+    working_dir: /var/www/html
     tty: true
     volumes:
-      - ./src:/home/site
+      - ./src:/var/www/html
     networks:
       - laradock
 
   php:
     container_name: php
-    working_dir: /home/site
+    working_dir: /var/www/html
     build:
       context: ./docker/php
       dockerfile: dockerfile
     ports:
       - 9000:9000
     volumes:
-      - ./src:/home/site
+      - ./src:/var/www/html
     networks:
       - laradock
 
@@ -67,6 +67,6 @@ services:
       context: ./docker/cron
       dockerfile: dockerfile
     volumes:
-      - ./src:/home/site
+      - ./src:/var/www/html
     networks:
       - laradock
