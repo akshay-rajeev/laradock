@@ -31,8 +31,6 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - ./mysql:/var/lib/mysql
     networks:
       - laradock
 
@@ -62,7 +60,7 @@ services:
       - laradock
 
   cron:
-    container_name: crone
+    container_name: cron
     build:
       context: ./docker/cron
       dockerfile: dockerfile

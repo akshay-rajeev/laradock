@@ -1,0 +1,66 @@
+name: Quality Control
+on: push
+
+jobs:
+  php_checks:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0.27
+        env:
+          MYSQL_DATABASE: laradock
+          MYSQL_USER: docker
+          MYSQL_PASSWORD: docker
+          MYSQL_ROOT_PASSWORD: docker
+        ports:
+          - "3306:3306"
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - name: Fresh Code Checkout
+        uses: actions/checkout@v2
+
+      - name: Install composer dependencies
+        run: composer install --no-scripts
+
+      - name: Prepare Laravel
+        run: |
+          cp .env.testing .env
+          php artisan key:generate
+
+      - name: Run phpcs
+        run: composer lint
+
+      - name: Run larastan
+        run: composer analyse
+
+      - name: Run phpcpd
+        run: composer duplicate
+
+      - name: Run Test Cases
+        run: php artisan test
+
+  node_checks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - name: Fresh Code Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup node Environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17'
+
+      - name: Install node Dependencies
+        run: npm install
+
+      - name: Compiling Assets
+        run: npm run dev
+
+      - name: Run Test Cases
+        run: npm run test
