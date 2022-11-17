@@ -34,6 +34,7 @@ case $1 in
     validate)
         docker-compose --env-file src/.env exec -T php ./vendor/bin/phpstan analyse --memory-limit=2G
         docker-compose --env-file src/.env exec -T php ./vendor/bin/phpcbf ./app
+        docker-compose --env-file src/.env exec -T php ./vendor/bin/phpcpd ./app
         docker-compose --env-file src/.env exec -T php php artisan test
         ;;
     login)

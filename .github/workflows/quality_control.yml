@@ -31,13 +31,13 @@ jobs:
           php artisan key:generate
 
       - name: Run phpcs
-        run: composer lint
+        run: php ./vendor/bin/phpcs ./app
 
       - name: Run larastan
-        run: composer analyse
+        run: php ./vendor/bin/phpstan analyse --memory-limit=2G
 
       - name: Run phpcpd
-        run: composer duplicate
+        run: php ./vendor/bin/phpcpd ./app
 
       - name: Run Test Cases
         run: php artisan test
@@ -60,7 +60,7 @@ jobs:
         run: npm install
 
       - name: Compiling Assets
-        run: npm run dev
+        run: npm run build
 
       - name: Run Test Cases
         run: npm run test
