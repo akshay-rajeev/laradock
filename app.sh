@@ -39,6 +39,6 @@ case $1 in
         docker-compose --env-file src/.env exec php php artisan test
         ;;
     login)
-        docker-compose --env-file src/.env exec -it $2 sh
+        docker exec -it $2 sh
         ;;
 esac
