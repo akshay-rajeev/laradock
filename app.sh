@@ -32,12 +32,13 @@ case $1 in
         docker-compose --env-file src/.env exec -T node npm run build
         ;;
     validate)
-        docker-compose --env-file src/.env exec -T php ./vendor/bin/phpstan analyse --memory-limit=2G
-        docker-compose --env-file src/.env exec -T php ./vendor/bin/phpcbf ./app
-        docker-compose --env-file src/.env exec -T php ./vendor/bin/phpcpd ./app
-        docker-compose --env-file src/.env exec -T php php artisan test
+        docker-compose --env-file src/.env exec php ./vendor/bin/phpstan analyse --memory-limit=2G
+        docker-compose --env-file src/.env exec php ./vendor/bin/phpcpd --exclude vendor ./
+        docker-compose --env-file src/.env exec php ./vendor/bin/phpcs ./
+        docker-compose --env-file src/.env exec php ./vendor/bin/phpcbf ./
+        docker-compose --env-file src/.env exec php php artisan test
         ;;
     login)
-        docker-compose --env-file src/.env exec -T -it $2 sh
+        docker-compose --env-file src/.env exec -it $2 sh
         ;;
 esac
