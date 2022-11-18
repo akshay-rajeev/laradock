@@ -13,7 +13,7 @@
 **Note: Be sure to set the ```DB_HOST``` to ```mysql``` since mysql is hosted as a container**
 
 3. Run the init application command to build and bring up all the docker containers<br>
-```./app init```
+```./app.sh init```
 
 4. Your application will be available at<br>
 [localhost](http://localhost)
@@ -21,40 +21,40 @@
 # Commands
 This section explain how to run various Laravel commands like artisan, composer, npm etc
 
-## ./app init
+## ./app.sh init
 **Use this command only once for the very first time to build and bring up docker containers to run the project**
 
-## ./app start
+## ./app.sh start
 Use this command to run the application. After running this command the application can be accessed at<br>
 [localhost](http://localhost)
 
-## ./app composer
+## ./app.sh composer
 Use this command to run composer commands on php container.<br>
-Eg: ```./app composer install```
+Eg: ```./app.sh composer install```
 
-## ./app artisan
+## ./app.sh artisan
 Use this command to run artisan commands on php container.<br>
-Eg: ```./app artisan make:migration create_users_table```
+Eg: ```./app.sh artisan make:migration create_users_table```
 
-## ./app validate
+## ./app.sh validate
 Use this command to run code quality checks for the project. Run this command everytime before pushing to Git.
 
-## ./app npm
+## ./app.sh npm
 Use this command to run npm commands on node container.<br>
-Eg: ```./app npm install```
+Eg: ```./app.sh npm install```
 
-## ./app watch
+## ./app.sh watch
 Use this command to run npm run watch commands on node container. Used to start Vite hot reload server.
 
-## ./app build
+## ./app.sh build
 Use this command to run npm run build commands on node container. Used to build production assets while deploying.
 
-## ./app migrate
+## ./app.sh migrate
 Use this command to reset the migration and run seeders. This command runs<br>
 ```artisan migrate:fresh --seed```<br>
 **Warning: This will reset the DB and result in data lose**
 
-## ./app login container_name
+## ./app.sh login container_name
 This command can be used when you need to get inside any container. Possible options for container_name are as follows.<br>
 1. php
 2. mysql
@@ -71,7 +71,7 @@ While deploying to Amazon EC2 follow the steps below
 sudo chmod +x setup-ec2.sh
 sudo chmod +x app.sh
 ./setup-ec2.sh
-./app init
+./app.sh init
 ```
 
 3. If everything went well the application should be available in the public IP of the EC2 instance.
